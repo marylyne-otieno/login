@@ -22,7 +22,11 @@ const Register = () => {
     console.log("Form submitted:", form);
 
     try {
-      await API.post("/register", form);
+      await API.post("/register", form, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       navigate("/login");
     } catch (error: any) {
       console.error("Registration error:", error.response);
@@ -51,6 +55,7 @@ const Register = () => {
             required
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={handleChange}
+            value={form.username}
           />
         </div>
 
@@ -65,6 +70,7 @@ const Register = () => {
             required
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={handleChange}
+            value={form.email}
           />
         </div>
 
@@ -79,19 +85,8 @@ const Register = () => {
             required
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={handleChange}
+            value={form.password}
           />
-        </div>
-
-        <div className="mb-6 flex items-center">
-          <input
-            type="checkbox"
-            id="checkout"
-            name="checkout"
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-          />
-          <label htmlFor="checkout" className="ml-2 block text-sm text-gray-700">
-            Checkout
-          </label>
         </div>
 
         <button
@@ -101,16 +96,11 @@ const Register = () => {
           Register
         </button>
 
-
-        {typeof error === "string" ? (
-          <p className="text-red-500 mt-4 text-center">{error}</p>
-        ) : error && typeof error === "object" && !Array.isArray(error) ? (
-          Object.entries(error as Record<string, string>).map(([ msg], i) => (
-            <p key={i} className="text-red-500 mt-2 text-center">
-              {msg}
-            </p>
-          ))
-        ) : null}
+        {error && (
+          <p className="text-red-500 mt-4 text-center">
+            {error}
+          </p>
+        )}
       </form>
     </div>
   );
