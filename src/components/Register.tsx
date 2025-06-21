@@ -1,5 +1,4 @@
-
-import React, {useState} from "react";
+import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 
 import API from "./api";
@@ -108,7 +107,7 @@ const Register = () => {
 {typeof error === "string" ? (
   <p className="text-red-500 mt-4 text-center">{error}</p>
 ) : error && typeof error === "object" && !Array.isArray(error) ? (
-  Object.entries(error as Record<string, string>).map(([key, msg], i) => (
+  Object.entries(error as Record<string, string>).map(([ msg], i) => (
     <p key={i} className="text-red-500 mt-4 text-center">{msg}</p>
   ))
 ) : null}
