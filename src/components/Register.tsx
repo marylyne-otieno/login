@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 
@@ -17,10 +18,14 @@ const Register = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
+
+    console.log("Form submitted:", form);
+
     try {
       await API.post("/register", form);
       navigate("/login");
     } catch (error: any) {
+      console.error("Registration error:", error.response);
       setError(error.response?.data?.message || "Registration failed");
     }
   };
@@ -36,10 +41,7 @@ const Register = () => {
         </h2>
 
         <div className="mb-4">
-          <label
-            htmlFor="username"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="username" className="block text-sm font-medium text-gray-700">
             Username
           </label>
           <input
@@ -53,10 +55,7 @@ const Register = () => {
         </div>
 
         <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
             Email
           </label>
           <input
@@ -70,10 +69,7 @@ const Register = () => {
         </div>
 
         <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
             Password
           </label>
           <input
@@ -104,15 +100,17 @@ const Register = () => {
         >
           Register
         </button>
-{typeof error === "string" ? (
-  <p className="text-red-500 mt-4 text-center">{error}</p>
-) : error && typeof error === "object" && !Array.isArray(error) ? (
-  Object.entries(error as Record<string, string>).map(([ msg], i) => (
-    <p key={i} className="text-red-500 mt-4 text-center">{msg}</p>
-  ))
-) : null}
 
 
+        {typeof error === "string" ? (
+          <p className="text-red-500 mt-4 text-center">{error}</p>
+        ) : error && typeof error === "object" && !Array.isArray(error) ? (
+          Object.entries(error as Record<string, string>).map(([ msg], i) => (
+            <p key={i} className="text-red-500 mt-2 text-center">
+              {msg}
+            </p>
+          ))
+        ) : null}
       </form>
     </div>
   );
