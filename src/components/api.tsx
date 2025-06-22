@@ -2,11 +2,11 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://backend-ddas.onrender.com',
+  baseURL: 'https://backend-2-t9yf.onrender.com/',
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, 
+  withCredentials: true,
 });
 
 export default API;
